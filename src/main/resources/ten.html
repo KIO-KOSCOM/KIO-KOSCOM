@@ -143,6 +143,7 @@
         const addCommaAtLoanLimit = addCommas(loan.loanEnableLimit / 10000);
         loanElement.className = 'flex items-center justify-between bg-black text-white p-2 rounded-lg';
         loanElement.innerHTML = `
+                <img src="./logo/${loan.bankName}.png" alt="Bank Logo" class="w-10 h-10">
                 <div class="text-center">
                     <p class="font-bold bank-name">${loan.bankName}</p>
                     <p class="rate">${loan.loanEnableRate}%</p>
