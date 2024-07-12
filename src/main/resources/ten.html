@@ -10,13 +10,16 @@
         body {
             font-family: 'Roboto', sans-serif;
         }
+
         .hidden {
             display: none;
         }
+
         .active-button {
             background-color: black;
             color: white;
         }
+
         .inactive-button {
             background-color: white;
             color: black;
@@ -24,162 +27,177 @@
         }
     </style>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const rateButton = document.getElementById('rateButton');
-            const amountButton = document.getElementById('amountButton');
-            const rateList = document.getElementById('rateList');
-            const amountList = document.getElementById('amountList');
+      document.addEventListener('DOMContentLoaded', function () {
+        const rateButton = document.getElementById('rateButton');
+        const amountButton = document.getElementById('amountButton');
+        const rateList = document.getElementById('rateList');
+        const amountList = document.getElementById('amountList');
 
-            rateButton.addEventListener('click', function () {
-                rateList.classList.remove('hidden');
-                amountList.classList.add('hidden');
-                rateButton.classList.add('active-button');
-                rateButton.classList.remove('inactive-button');
-                amountButton.classList.add('inactive-button');
-                amountButton.classList.remove('active-button');
-            });
-
-            amountButton.addEventListener('click', function () {
-                amountList.classList.remove('hidden');
-                rateList.classList.add('hidden');
-                amountButton.classList.add('active-button');
-                amountButton.classList.remove('inactive-button');
-                rateButton.classList.add('inactive-button');
-                rateButton.classList.remove('active-button');
-            });
-
-            // Initialize buttons
-            rateButton.classList.add('active-button');
-            amountButton.classList.add('inactive-button');
-
-            // Fetch data from the server
-            fetch('http://localhost:8080/v1/application', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    applicationCategory: "MORTGAGE",
-                    applicationStatus: "string",
-                    applicationCertification: "string",
-                    applicationUserInputRequest: {
-                        residentEnrollNumber: "string",
-                        name: "string",
-                        phoneNumber: "string",
-                        yearlyIncome: 0,
-                        incomeType: "SALARY",
-                        employmentType: "REGULAR",
-                        companyEnterMonth: "string",
-                        companyBizNumber: "string",
-                        loanPurpose: "MORTGAGE",
-                        carLicenseNumber: "string"
-                    },
-                    mortgageRequest: {
-                        apartmentKey: "string",
-                        houseMortgagePurpose: "PURCHASE",
-                        dong: "string",
-                        ho: "string",
-                        houseDisposalConditionAgreed: true
-                    },
-                    dummyType: false
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                // Map the response data to HTML elements
-                mapDataToElements(data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        rateButton.addEventListener('click', function () {
+          rateList.classList.remove('hidden');
+          amountList.classList.add('hidden');
+          rateButton.classList.add('active-button');
+          rateButton.classList.remove('inactive-button');
+          amountButton.classList.add('inactive-button');
+          amountButton.classList.remove('active-button');
         });
 
-        function mapDataToElements(data) {
-            // Clear existing elements
-            document.getElementById('rateList').innerHTML = '';
-            document.getElementById('amountList').innerHTML = '';
+        amountButton.addEventListener('click', function () {
+          amountList.classList.remove('hidden');
+          rateList.classList.add('hidden');
+          amountButton.classList.add('active-button');
+          amountButton.classList.remove('inactive-button');
+          rateButton.classList.add('inactive-button');
+          rateButton.classList.remove('active-button');
+        });
 
-            // Map loanEnableListByRate to rateList
-            if (data.loanEnableListByRate) {
-                data.loanEnableListByRate.forEach(loan => addLoanToList('rateList', loan));
-            }
+        // Initialize buttons
+        rateButton.classList.add('active-button');
+        amountButton.classList.add('inactive-button');
 
-            // Map loanEnableListByLimit to amountList
-            if (data.loanEnableListByLimit) {
-                data.loanEnableListByLimit.forEach(loan => addLoanToList('amountList', loan));
-            }
+        // Fetch data from the server
+        fetch('http://localhost:8080/v1/application', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            applicationCategory: "MORTGAGE",
+            applicationStatus: "string",
+            applicationCertification: "string",
+            applicationUserInputRequest: {
+              residentEnrollNumber: "string",
+              name: "string",
+              phoneNumber: "string",
+              yearlyIncome: 0,
+              incomeType: "SALARY",
+              employmentType: "REGULAR",
+              companyEnterMonth: "string",
+              companyBizNumber: "string",
+              loanPurpose: "MORTGAGE",
+              carLicenseNumber: "string"
+            },
+            mortgageRequest: {
+              apartmentKey: "string",
+              houseMortgagePurpose: "PURCHASE",
+              dong: "string",
+              ho: "string",
+              houseDisposalConditionAgreed: true
+            },
+            dummyType: false
+          })
+        })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+              // Map the response data to HTML elements
+              mapDataToElements(data);
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+      });
 
-            // Map bestRateLoan to lowest rate section
-            if (data.bestRateLoan) {
-                mapBestLoan('lowestRate', data.bestRateLoan);
-            }
+      function mapDataToElements(data) {
+        // Clear existing elements
+        document.getElementById('rateList').innerHTML = '';
+        document.getElementById('amountList').innerHTML = '';
 
-            // Map bestLimitLoan to highest limit section
-            if (data.bestLimitLoan) {
-                mapBestLoan('highestLimit', data.bestLimitLoan);
-            }
+        // Map loanEnableListByRate to rateList
+        if (data.loanEnableListByRate) {
+          data.loanEnableListByRate.forEach(loan => addLoanToList('rateList', loan));
         }
 
-        function addLoanToList(listId, loan) {
-            const list = document.getElementById(listId);
-            const loanElement = document.createElement('div');
-            loanElement.className = 'flex items-center justify-between bg-black text-white p-2 rounded-lg';
-            loanElement.innerHTML = `
+        // Map loanEnableListByLimit to amountList
+        if (data.loanEnableListByLimit) {
+          data.loanEnableListByLimit.forEach(loan => addLoanToList('amountList', loan));
+        }
+
+        // Map bestRateLoan to lowest rate section
+        if (data.bestRateLoan) {
+          mapBestLoan('lowestRate', data.bestRateLoan);
+        }
+
+        // Map bestLimitLoan to highest limit section
+        if (data.bestLimitLoan) {
+          mapBestLoan('highestLimit', data.bestLimitLoan);
+        }
+      }
+
+      function addCommas(num) {
+        // 숫자를 문자열로 변환
+        let str = num.toString();
+
+        // 정규식을 사용하여 세 자리마다 콤마 추가
+        // (?!^)는 문자열의 처음이 아닌 경우에만 일치하도록 합니다.
+        // \B는 단어 경계가 아닌 경우에 일치하도록 합니다.
+        // 이를 통해 맨 앞의 숫자에는 콤마를 추가하지 않습니다.
+        str = str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        return str;
+      }
+
+      function addLoanToList(listId, loan) {
+        const list = document.getElementById(listId);
+        const loanElement = document.createElement('div');
+        const addCommaAtLoanLimit = addCommas(loan.loanEnableLimit / 10000);
+        loanElement.className = 'flex items-center justify-between bg-black text-white p-2 rounded-lg';
+        loanElement.innerHTML = `
+                <div class="text-center">
+                    <p class="font-bold bank-name">${loan.bankName}</p>
+                    <p class="rate">${loan.loanEnableRate}%</p>
+                </div>
+                <p class="font-bold amount">${addCommaAtLoanLimit}만원</p>
+            `;
+        list.appendChild(loanElement);
+      }
+
+      function mapBestLoan(elementId, loan) {
+        const element = document.getElementById(elementId);
+        const addCommaAtLoanLimit = addCommas(loan.loanEnableLimit / 10000);
+
+        element.innerHTML = `
                 <img src="./logo/${loan.bankName}.png" alt="Bank Logo" class="w-10 h-10">
                 <div class="text-center">
                     <p class="font-bold bank-name">${loan.bankName}</p>
                     <p class="rate">${loan.loanEnableRate}%</p>
                 </div>
-                <p class="font-bold amount">${loan.loanEnableLimit/10000}만원</p>
+                <p class="font-bold amount">${addCommaAtLoanLimit}만원</p>
             `;
-            list.appendChild(loanElement);
-        }
-
-        function mapBestLoan(elementId, loan) {
-            const element = document.getElementById(elementId);
-            element.innerHTML = `
-                <img src="./logo/${loan.bankName}.png" alt="Bank Logo" class="w-10 h-10">
-                <div class="text-center">
-                    <p class="font-bold bank-name">${loan.bankName}</p>
-                    <p class="rate">${loan.loanEnableRate}%</p>
-                </div>
-                <p class="font-bold amount">${loan.loanEnableLimit/10000}만원</p>
-            `;
-        }
+      }
     </script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="bg-white rounded-lg shadow-lg p-6 w-80">
-        <h1 class="text-2xl font-bold text-center mb-4">KIO</h1>
-        <p class="text-center mb-6">20개의 금융사에서 대출 가능합니다</p>
-        
-        <div class="mb-4">
-            <h2 class="text-lg font-bold mb-2">최저금리</h2>
-            <div id="lowestRate" class="flex items-center justify-between border p-2 rounded-lg">
-                <!-- 최저금리 정보가 여기에 매핑됩니다 -->
-            </div>
-        </div>
-        
-        <div class="mb-4">
-            <h2 class="text-lg font-bold mb-2">최대한도</h2>
-            <div id="highestLimit" class="flex items-center justify-between border p-2 rounded-lg">
-                <!-- 최대한도 정보가 여기에 매핑됩니다 -->
-            </div>
-        </div>
-        
-        <div class="flex justify-center mb-4">
-            <button id="rateButton" class="px-4 py-2 rounded-lg mr-2">금리순</button>
-            <button id="amountButton" class="px-4 py-2 rounded-lg">한도순</button>
-        </div>
-        
-        <div id="rateList" class="space-y-2">
-            <!-- This will be populated by JavaScript -->
-        </div>
-        
-        <div id="amountList" class="space-y-2 hidden">
-            <!-- This will be populated by JavaScript -->
+<div class="bg-white rounded-lg shadow-lg p-6 w-80">
+    <h1 class="text-2xl font-bold text-center mb-4">KIO</h1>
+    <p class="text-center mb-6">20개의 금융사에서 대출 가능합니다</p>
+
+    <div class="mb-4">
+        <h2 class="text-lg font-bold mb-2">최저금리</h2>
+        <div id="lowestRate" class="flex items-center justify-between border p-2 rounded-lg">
+            <!-- 최저금리 정보가 여기에 매핑됩니다 -->
         </div>
     </div>
+
+    <div class="mb-4">
+        <h2 class="text-lg font-bold mb-2">최대한도</h2>
+        <div id="highestLimit" class="flex items-center justify-between border p-2 rounded-lg">
+            <!-- 최대한도 정보가 여기에 매핑됩니다 -->
+        </div>
+    </div>
+
+    <div class="flex justify-center mb-4">
+        <button id="rateButton" class="px-4 py-2 rounded-lg mr-2">금리순</button>
+        <button id="amountButton" class="px-4 py-2 rounded-lg">한도순</button>
+    </div>
+
+    <div id="rateList" class="space-y-2">
+        <!-- This will be populated by JavaScript -->
+    </div>
+
+    <div id="amountList" class="space-y-2 hidden">
+        <!-- This will be populated by JavaScript -->
+    </div>
+</div>
 </body>
 </html>
