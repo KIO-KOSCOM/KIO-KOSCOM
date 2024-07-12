@@ -37,7 +37,7 @@ class ApplicationService(
             }
 
         val sortedLoanEnableProductByLimit: List<LoanLimitResponse> =
-            if (applicationRequest.dummyType == false) {
+            if (applicationRequest.dummyType == true) {
                 sortingLoanEnableProductByLimitAddDummy(parseToApplicationResponse)
             } else {
                 sortingLoanEnableProductByLimit(parseToApplicationResponse)
