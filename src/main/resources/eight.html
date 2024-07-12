@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIO Loading Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .loading-icon {
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen" onload="redirectToNextPage()">
+
+    <div class="bg-white shadow-lg rounded-lg p-6 w-80">
+        <div class="text-center">
+            <h1 class="text-2xl font-bold mb-4">KIO</h1>
+            <p class="text-lg mb-6">요청 하신 대출 정보를 가져오고 있어요</p>
+            <div class="loading-icon w-16 h-16 border-4 border-gray-300 border-t-4 border-t-black rounded-full mx-auto">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function redirectToNextPage() {
+            setTimeout(function () {
+                window.location.href = 'ten.html';
+            }, 5000);
+        }
+    </script>
+</body>
+
+</html>

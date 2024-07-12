@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .hidden {
+            display: none;
+        }
+        .active-button {
+            background-color: black;
+            color: white;
+        }
+        .inactive-button {
+            background-color: white;
+            color: black;
+            border: 1px solid black;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const rateButton = document.getElementById('rateButton');
+            const amountButton = document.getElementById('amountButton');
+            const rateList = document.getElementById('rateList');
+            const amountList = document.getElementById('amountList');
+
+            rateButton.addEventListener('click', function () {
+                rateList.classList.remove('hidden');
+                amountList.classList.add('hidden');
+                rateButton.classList.add('active-button');
+                rateButton.classList.remove('inactive-button');
+                amountButton.classList.add('inactive-button');
+                amountButton.classList.remove('active-button');
+            });
+
+            amountButton.addEventListener('click', function () {
+                amountList.classList.remove('hidden');
+                rateList.classList.add('hidden');
+                amountButton.classList.add('active-button');
+                amountButton.classList.remove('inactive-button');
+                rateButton.classList.add('inactive-button');
+                rateButton.classList.remove('active-button');
+            });
+
+            // Initialize buttons
+            rateButton.classList.add('active-button');
+            amountButton.classList.add('inactive-button');
+        });
+    </script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-80">
+        <h1 class="text-2xl font-bold text-center mb-4">KIO</h1>
+        <p class="text-center mb-6">20개의 금융사에서 대출 가능합니다</p>
+        
+        <div class="mb-4">
+            <h2 class="text-lg font-bold mb-2">최저금리</h2>
+            <div class="flex items-center justify-between border p-2 rounded-lg">
+                <img src="https://via.placeholder.com/40" alt="Bank Logo" class="w-10 h-10">
+                <div class="text-center">
+                    <p class="font-bold">신한은행</p>
+                    <p class="rate">9.4%</p>
+                </div>
+                <p class="font-bold amount">2000만원</p>
+            </div>
+        </div>
+        
+        <div class="mb-4">
+            <h2 class="text-lg font-bold mb-2">최대한도</h2>
+            <div class="flex items-center justify-between border p-2 rounded-lg">
+                <img src="https://via.placeholder.com/40" alt="Bank Logo" class="w-10 h-10">
+                <div class="text-center">
+                    <p class="font-bold">한국투자저축은행</p>
+                    <p class="rate">15.21%</p>
+                </div>
+                <p class="font-bold amount">8000만원</p>
+            </div>
+        </div>
+        
+        <div class="flex justify-center mb-4">
+            <button id="rateButton" class="px-4 py-2 rounded-lg mr-2">금리순</button>
+            <button id="amountButton" class="px-4 py-2 rounded-lg">한도순</button>
+        </div>
+        
+        <div id="rateList" class="space-y-2">
+            <div class="flex items-center justify-between bg-black text-white p-2 rounded-lg">
+                <img src="https://via.placeholder.com/40" alt="Bank Logo" class="w-10 h-10">
+                <div class="text-center">
+                    <p class="font-bold">신한은행</p>
+                    <p class="rate">9.4%</p>
+                </div>
+                <p class="font-bold amount">2000만원</p>
+            </div>
+            <div class="flex items-center justify-between bg-black text-white p-2 rounded-lg">
+                <img src="https://via.placeholder.com/40" alt="Bank Logo" class="w-10 h-10">
+                <div class="text-center">
+                    <p class="font-bold">IM Bank</p>
+                    <p class="rate">12.4%</p>
+                </div>
+                <p class="font-bold amount">3800만원</p>
+            </div>
+            <div class="flex items-center justify-between bg-black text-white p-2 rounded-lg">
+                <img src="https://via.placeholder.com/40" alt="Bank Logo" class="w-10 h-10">
+                <div class="text-center">
+                    <p class="font-bold">하나은행</p>
+                    <p class="rate">12.4%</p>
+                </div>
+                <p class="font-bold amount">2800만원</p>
+            </div>
+            <div class="flex items-center justify-between bg-black text-white p-2 rounded-lg">
+                <img src="https://via.placeholder.com/40" alt="Bank Logo" class="w-10 h-10">
+                <div class="text-center">
+                    <p class="font-bold bank-name">Hyundai Card</p>
+                    <p class="rate">14.4%</p>
+                </div>
+                <p class="font-bold">2000만원</p>
+            </div>
+        </div>
+        
+        <div id="amountList" class="space-y-2 hidden">
+            <div class="flex items-center justify-between bg-black text-white p-2 rounded-lg">
+                <img src="https://via.placeholder.com/40" alt="Bank Logo" class="w-10 h-10">
+                <div class="text-center">
+                    <p class="font-bold bank-name">한국투자저축은행</p>
+                    <p class="rate">15.21%</p>
+                </div>
+                <p class="font-bold amount">8000만원</p>
+            </div>
+            <div class="flex items-center justify-between bg-black text-white p-2 rounded-lg">
+                <img src="https://via.placeholder.com/40" alt="Bank Logo" class="w-10 h-10">
+                <div class="text-center">
+                    <p class="font-bold bank-name">IM Bank</p>
+                    <p class="rate">12.4%</p>
+                </div>
+                <p class="font-bold amount">3800만원</p>
+            </div>
+            <div class="flex items-center justify-between bg-black text-white p-2 rounded-lg">
+                <img src="https://via.placeholder.com/40" alt="Bank Logo" class="w-10 h-10">
+                <div class="text-center">
+                    <p class="font-bold bank-name">하나은행</p>
+                    <p class="rate">12.4%</p>
+                </div>
+                <p class="font-bold amount">2800만원</p>
+            </div>
+            <div class="flex items-center justify-between bg-black text-white p-2 rounded-lg">
+                <img src="https://via.placeholder.com/40" alt="Bank Logo" class="w-10 h-10 bank-logo-image">
+                <div class="text-center">
+                    <p class="font-bold bank-name">신한은행</p>
+                    <p class="rate">9.4%</p>
+                </div>
+                <p class="font-bold amount">2000만원</p>
+            </div>
+        </div>
+        <div id="loanInfo" class="space-y-2 hidden">
+            <!-- Template for Loan Info Items -->
+            <div class="flex items-center justify-between bg-black text-white p-2 rounded-lg">
+                <div class="text-center">
+                    <p class="font-bold loan-limit"></p>
+                    <p class="loan-rate"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 요청 데이터
+            const requestData = {
+                "applicationCategory": "MORTGAGE",
+                "applicationStatus": "string",
+                "applicationCertification": "string",
+                "applicationUserInputRequest": {
+                    "residentEnrollNumber": "string",
+                    "name": "string",
+                    "phoneNumber": "string",
+                    "yearlyIncome": 0,
+                    "incomeType": "SALARY",
+                    "employmentType": "REGULAR",
+                    "companyEnterMonth": "string",
+                    "companyBizNumber": "string",
+                    "loanPurpose": "MORTGAGE",
+                    "carLicenseNumber": "string"
+                },
+                "mortgageRequest": {
+                    "apartmentKey": "string",
+                    "houseMortgagePurpose": "PURCHASE",
+                    "dong": "string",
+                    "ho": "string",
+                    "houseDisposalConditionAgreed": true
+                },
+                "dummyType": true
+            };
+        
+            // 서버로 POST 요청 보내기
+            fetch('http://localhost:8080/v1/application', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 응답 데이터 처리
+                const loanInfo = document.getElementById('loanInfo');
+                
+                data.loanEnableListByLimit.forEach(item => {
+                    const itemTemplate = loanInfo.children[0].cloneNode(true);
+                    itemTemplate.querySelector('.loan-limit').textContent = `Limit: ${item.loanEnableLimit}`;
+                    itemTemplate.querySelector('.loan-rate').textContent = `Rate: ${item.loanEnableRate}%`;
+                    
+                    itemTemplate.classList.remove('hidden');
+                    loanInfo.appendChild(itemTemplate);
+                });
+        
+                loanInfo.classList.remove('hidden');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+        </script>
+</body>
+</html>

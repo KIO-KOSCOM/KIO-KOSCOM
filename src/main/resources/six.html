@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIO Address Search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-80">
+        <h1 class="text-2xl font-bold mb-4">KIO</h1>
+        <p class="mb-4">주택 주소를 검색해주세요</p>
+        <input type="text" placeholder="도로명, 지번, 건물명 검색" class="w-full p-2 border border-gray-300 rounded mb-4">
+        <button class="w-full bg-black text-white py-2 rounded mb-4" onclick="delete_hidden()">검색</button>
+        <div id="result" class="mb-4 hidden">
+            <p class="mb-2">주소</p>
+            <p id="address" class="border-b border-gray-300 pb-2 mb-2">서울시 강남구 역삼동 760-29</p>
+            <p id="address-detail" class="border-b border-gray-300 pb-2 mb-2">(역삼동)</p>
+            <div class="flex space-x-2 mb-2">
+                <input type="text" placeholder="동" class="w-1/2 p-2 border border-gray-300 rounded">
+                <input type="text" placeholder="호" class="w-1/2 p-2 border border-gray-300 rounded">
+            </div>
+            <button id="next" class="w-full bg-black text-white py-2 rounded">다음</button>
+        </div>
+    </div>
+    <script>
+        function delete_hidden() {
+            alert("가상의 주소를 호출합니다.")
+            document.getElementById('result').classList.remove('hidden');
+        }
+        
+        document.getElementById('next').addEventListener('click', function() {
+            window.location.href = 'seven.html'
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-80">
+        <h1 class="text-3xl font-bold text-center mb-4">KIO</h1>
+        <p class="text-center mb-6">주민등록번호를 입력해주세요</p>
+        <div class="flex justify-center mb-6">
+            <input id="firstPart" type="text" class="border-b-2 border-gray-400 text-center w-20 mx-2 focus:outline-none focus:border-blue-500" maxlength="6" placeholder="------">
+            <span class="text-xl">-</span>
+            <input id="secondPart" type="password" class="border-b-2 border-gray-400 text-center w-20 mx-2 focus:outline-none focus:border-blue-500" maxlength="7" placeholder="-------">
+        </div>
+        <button id="next" class="bg-black text-white py-2 px-4 rounded w-full hover:bg-gray-800">다음</button>
+    </div>
+    <script>
+        function limitInputLength(element, maxLength) {
+            if (element.value.length > maxLength) {
+                element.value = element.value.slice(0, maxLength);
+            }
+        }
+
+        // 숫자만 입력하도록 제한
+        document.getElementById('firstPart').addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        document.getElementById('secondPart').addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        document.getElementById('next').addEventListener('click', function() {
+            const firstPart = document.getElementById('firstPart').value;
+            const secondPart = document.getElementById('secondPart').value;
+            
+            if (firstPart.length !== 6 || secondPart.length !== 7) {
+                alert('주민등록번호를 올바르게 입력해주세요.');
+                return;
+            }
+            
+            sessionStorage.setItem('rrn', firstPart + '-' + secondPart);
+            window.location.href = 'fourth.html';
+        });
+    </script>
+</body>
+</html>
