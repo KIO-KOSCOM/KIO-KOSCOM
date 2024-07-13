@@ -2,6 +2,7 @@ package com.byld.koscomloanalgorithm.controller
 
 import com.byld.koscomloanalgorithm.domain.request.ApplicationRequest
 import com.byld.koscomloanalgorithm.domain.response.ApplicationResponse
+import com.byld.koscomloanalgorithm.domain.response.LoanLimitResponse
 import com.byld.koscomloanalgorithm.domain.service.ApplicationService
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
@@ -31,6 +32,14 @@ class ApplicationController(
         @PathVariable applicationId: Long,
     ): ResponseEntity<ApplicationResponse> {
         val applicationResponse = applicationService.getApplication(applicationId)
+        return applicationResponse.let { ResponseEntity.ok(it) }
+    }
+
+    @GetMapping("/loanLimit/{loanId}")
+    fun getLoanDetailResponse(
+        @PathVariable loanId: Long,
+    ): ResponseEntity<LoanLimitResponse> {
+        val applicationResponse = applicationService.getLoanLimit(loanId)
         return applicationResponse.let { ResponseEntity.ok(it) }
     }
 }

@@ -122,6 +122,9 @@
         if (data.bestLimitLoan) {
           mapBestLoan('highestLimit', data.bestLimitLoan);
         }
+
+        const rateListCount = data.loanEnableListByRate ? data.loanEnableListByRate.length : 0;
+        document.querySelector('.mb-6').innerHTML = `${rateListCount}개의 금융사에서 대출 가능합니다`;
       }
 
       function addCommas(num) {
@@ -150,7 +153,11 @@
                 </div>
                 <p class="font-bold amount">${addCommaAtLoanLimit}만원</p>
             `;
+        loanElement.addEventListener('click', function () {
+          window.location.href = `result-loan-detail.html?value=${loan.loanLimitId}`;
+        });
         list.appendChild(loanElement);
+        
       }
 
       function mapBestLoan(elementId, loan) {
@@ -166,12 +173,15 @@
                 <p class="font-bold amount">${addCommaAtLoanLimit}만원</p>
             `;
       }
+
     </script>
+
+
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 <div class="bg-white rounded-lg shadow-lg p-6 w-80">
     <h1 class="text-2xl font-bold text-center mb-4">KIO</h1>
-    <p class="text-center mb-6">20개의 금융사에서 대출 가능합니다</p>
+    <p class="text-center mb-6">개의 금융사에서 대출 가능합니다</p>
 
     <div class="mb-4">
         <h2 class="text-lg font-bold mb-2">최저금리</h2>
@@ -199,6 +209,47 @@
     <div id="amountList" class="space-y-2 hidden">
         <!-- This will be populated by JavaScript -->
     </div>
+
+    <p id="countdown" class="text-center p-2 mb-6"></p>
 </div>
+
+<script>
+  // Calculate time remaining until 24:00:00 today
+  function getTimeRemaining() {
+    const now = new Date();
+    const deadline = new Date();
+    deadline.setHours(24, 0, 0, 0); // Set deadline to today at 24:00:00
+
+    let timeDiff = deadline - now;
+    if (timeDiff < 0) {
+      // If deadline has passed, calculate for the next day
+      deadline.setDate(deadline.getDate() + 1);
+      timeDiff = deadline - now;
+    }
+
+    const seconds = Math.floor((timeDiff / 1000) % 60);
+    const minutes = Math.floor((timeDiff / 1000 / 60) % 60);
+    const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
+
+    return {
+      total: timeDiff,
+      hours: hours,
+      minutes: minutes,
+      seconds: seconds
+    };
+  }
+
+  function initializeClock() {
+    function updateClock() {
+      const t = getTimeRemaining();
+      document.getElementById('countdown').innerHTML = `남은 시간   : ${t.hours}시간 ${t.minutes}분 ${t.seconds}초`;
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+  }
+
+  initializeClock();
+</script>
 </body>
 </html>
