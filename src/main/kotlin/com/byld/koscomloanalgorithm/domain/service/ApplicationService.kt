@@ -29,19 +29,9 @@ class ApplicationService(
         val parseToApplicationResponse =
             loanLimitResponses(loanEnableLimitList)
 
-        val sortedLoanEnableProductByRate: List<LoanLimitResponse> =
-            if (applicationRequest.dummyType == true) {
-                sortingLoanEnableProductByRateAddDummy(parseToApplicationResponse)
-            } else {
-                sortingLoanEnableProductByRate(parseToApplicationResponse)
-            }
+        val sortedLoanEnableProductByRate: List<LoanLimitResponse> = sortingLoanEnableProductByRate(parseToApplicationResponse)
 
-        val sortedLoanEnableProductByLimit: List<LoanLimitResponse> =
-            if (applicationRequest.dummyType == true) {
-                sortingLoanEnableProductByLimitAddDummy(parseToApplicationResponse)
-            } else {
-                sortingLoanEnableProductByLimit(parseToApplicationResponse)
-            }
+        val sortedLoanEnableProductByLimit: List<LoanLimitResponse> = sortingLoanEnableProductByLimit(parseToApplicationResponse)
 
         return ApplicationResponse(
             applicationId = applicationId!!,
@@ -83,7 +73,7 @@ class ApplicationService(
 
         val sortedLoanEnableProductByRate: List<LoanLimitResponse> = sortingLoanEnableProductByRate(parseToApplicationResponse)
 
-        val sortedLoanEnableProductByLimit: List<LoanLimitResponse> = sortingLoanEnableProductByLimitAddDummy(parseToApplicationResponse)
+        val sortedLoanEnableProductByLimit: List<LoanLimitResponse> = sortingLoanEnableProductByLimit(parseToApplicationResponse)
 
         return ApplicationResponse(
             applicationId = applicationId,
@@ -94,6 +84,23 @@ class ApplicationService(
         )
     }
 
+    fun getLoanLimit(loanLimitId: Long): LoanLimitResponse {
+        val loanEnableLimit: LoanEnableLimit? = applicationContextService.getLoanLimitById(loanLimitId)
+        val product = applicationContextService.getProductById(loanEnableLimit?.productId!!)
+        val bankName = applicationContextService.getBankById(product?.bankId!!)?.name
+
+        return LoanLimitResponse(
+            loanLimitId = loanLimitId,
+            bankName = bankName,
+            productName = product.productName,
+            loanEnable = loanEnableLimit.loanEnable,
+            loanEnableLimit = loanEnableLimit.loanEnableLimit,
+            loanEnableRate = loanEnableLimit.loanEnableRate,
+            loanRateType = loanEnableLimit.loanRateType,
+            loanEnablePeriod = loanEnableLimit.loanEnablePeriod,
+        )
+    }
+
     private fun loanLimitResponses(loanEnableLimitList: List<LoanEnableLimit>): List<LoanLimitResponse> {
         val parseToApplicationResponse =
             loanEnableLimitList.map {
@@ -101,6 +108,7 @@ class ApplicationService(
                 val bankName = applicationContextService.getBankById(product?.bankId!!)?.name
 
                 LoanLimitResponse(
+                    loanLimitId = it.id,
                     bankName = bankName,
                     productName = product.productName,
                     loanEnable = it.loanEnable,
@@ -126,42 +134,4 @@ class ApplicationService(
                 it.loanEnableLimit
             }.thenBy { it.loanEnableRate },
         )
-
-    fun sortingLoanEnableProductByRateAddDummy(loanEnableProductList: List<LoanLimitResponse>): List<LoanLimitResponse> {
-        val loanEnableLimitList =
-            loanEnableProductList.sortedWith(
-                compareBy<LoanLimitResponse> {
-                    it.loanEnableRate
-                }.thenByDescending { it.loanEnableLimit },
-            )
-        if (loanEnableLimitList.size >= 4) {
-            loanEnableLimitList[1].loanEnableRate = loanEnableLimitList[0].loanEnableRate
-            loanEnableLimitList[3].loanEnableLimit = loanEnableLimitList[2].loanEnableLimit
-            loanEnableLimitList[3].loanEnableRate = loanEnableLimitList[2].loanEnableRate
-        }
-        return loanEnableProductList.sortedWith(
-            compareBy<LoanLimitResponse> {
-                it.loanEnableRate
-            }.thenByDescending { it.loanEnableLimit },
-        )
-    }
-
-    fun sortingLoanEnableProductByLimitAddDummy(loanEnableProductList: List<LoanLimitResponse>): List<LoanLimitResponse> {
-        val loanEnableLimitList =
-            loanEnableProductList.sortedWith(
-                compareByDescending<LoanLimitResponse> {
-                    it.loanEnableLimit
-                }.thenBy { it.loanEnableRate },
-            )
-        if (loanEnableLimitList.size >= 4) {
-            loanEnableLimitList[1].loanEnableLimit = loanEnableLimitList[0].loanEnableLimit
-            loanEnableLimitList[3].loanEnableLimit = loanEnableLimitList[2].loanEnableLimit
-            loanEnableLimitList[3].loanEnableRate = loanEnableLimitList[2].loanEnableRate
-        }
-        return loanEnableProductList.sortedWith(
-            compareByDescending<LoanLimitResponse> {
-                it.loanEnableLimit
-            }.thenBy { it.loanEnableRate },
-        )
-    }
 }

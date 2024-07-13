@@ -7,6 +7,8 @@ import java.time.LocalDateTime
 
 @Repository
 interface LoanEnableLimitRepository : JpaRepository<LoanEnableLimit, Long> {
+    fun findLoanEnableLimitById(id: Long): LoanEnableLimit?
+
     fun findByApplicationIdAndInsertTimeIsGreaterThanEqual(
         applicationId: Long,
         insertTime: LocalDateTime,

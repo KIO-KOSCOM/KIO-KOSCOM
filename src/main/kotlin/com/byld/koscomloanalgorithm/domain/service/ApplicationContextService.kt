@@ -64,6 +64,10 @@ class ApplicationContextService(
         productRepository.findProductById(id).let { return it }
     }
 
+    fun getLoanLimitById(id: Long): LoanEnableLimit? {
+        loanEnableLimitRepository.findLoanEnableLimitById(id).let { return it }
+    }
+
     fun getEnableProduct(applicationCategory: LoanPurpose?): List<Product> {
         productRepository
             .findByProductCategoryIsAndCallEnableIsTrue(applicationCategory)

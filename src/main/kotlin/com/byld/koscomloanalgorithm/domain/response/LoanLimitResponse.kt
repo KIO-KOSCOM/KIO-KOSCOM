@@ -1,6 +1,7 @@
 package com.byld.koscomloanalgorithm.domain.response
 
 data class LoanLimitResponse(
+    var loanLimitId: Long? = null,
     var bankName: String? = null,
     var productName: String? = null,
     var loanEnable: Boolean? = null,
